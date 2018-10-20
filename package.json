@@ -1,0 +1,22 @@
+{
+  "name": "gdprblack-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdprblack/blockchain.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gdprblack/blockchain/issues"
+  },
+  "homepage": "https://github.com/gdprblack/blockchain#readme",
+  "dependencies": {
+    "web3": "^1.0.0-beta.36"
+  }
+}
