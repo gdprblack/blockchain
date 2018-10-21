@@ -123,32 +123,32 @@ function getLogData(logAddress) {
 // address = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A"
 
 
-deployNewContract("98765")
-	.then((newaddress) => {
-		addEvent(newaddress, 12, "Sergi", 1, "METADATA")
-			.then((logaddress) => {
-				addEvent(newaddress, 13, "miquel", 4, "DESC")
-					.then((aux) => {
-						getLogList(newaddress)
-							.then((response) => {
-								console.log(response)
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					})
-					.catch((error) => {
-						console.log(error)
-					})
-			})
-			.catch((error) => {
-				console.log(error)
-			})
-	})
-	.catch((error) => {
-		console.log(error)
-	})
+// deployNewContract("98765")
+// 	.then((newaddress) => {
+// 		addEvent(newaddress, 12, "Sergi", 1, "METADATA")
+// 			.then((logaddress) => {
+// 				addEvent(newaddress, 13, "miquel", 4, "DESC")
+// 					.then((aux) => {
+// 						getLogList(newaddress)
+// 							.then((response) => {
+// 								console.log(response)
+// 							})
+// 							.catch((error) => {
+// 								console.log(error)
+// 							})
+// 					})
+// 					.catch((error) => {
+// 						console.log(error)
+// 					})
+// 			})
+// 			.catch((error) => {
+// 				console.log(error)
+// 			})
+// 	})
+// 	.catch((error) => {
+// 		console.log(error)
+// 	})
 
 //getLogInfo(address)
 
-// module.exports = {addEvent, deployNewContract, getLogList, getLogData};
+module.exports = {addEvent, deployNewContract, getLogList, getLogData};
