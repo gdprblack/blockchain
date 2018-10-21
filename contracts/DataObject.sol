@@ -1,5 +1,6 @@
 pragma solidity ^0.4.0;
-import "./Log.sol"
+import "./Log.sol";
+
 contract DataObject {
     string public id;
     address[] public logList;
