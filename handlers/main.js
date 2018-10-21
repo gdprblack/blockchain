@@ -6,7 +6,10 @@ class BlockchainEvents {
 	constructor() {
 		var Web3 = require('web3');
 		this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545'));
-		this.coinbase = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
+		this.web3.eth.getAccounts()
+		.then((accountlist) => {
+			this.coinbase = accountlist[0]
+		});
 	}
 
 	addEvent(__address, __timestamp, __user, __type, __metadata) {
@@ -91,6 +94,17 @@ class BlockchainEvents {
 				.then((user) => {
 					console.log(user)
 				})
+		})
+		return statusCode;
+	}
+
+	getCoinbase() {
+		const statusCode = new Promise((resolve, reject) => {
+			this.web3.eth.getAccounts()
+			.then((accountlist) => {
+				console.log(accountlist)
+				resolve(accountlist)
+			})
 		})
 		return statusCode;
 	}

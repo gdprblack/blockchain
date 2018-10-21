@@ -34,6 +34,12 @@ bcRouter.post('/getLogList', function(req, res) {
     }) 
 })
 
+bcRouter.get('/getCoinbase', function(req, res) {
+    blockchainEvents.getCoinbase().then((response) => {
+        res.send(response)
+    }) 
+})
+
 
 router.use('/blockchain', bcRouter)
 
