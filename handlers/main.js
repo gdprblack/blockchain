@@ -50,7 +50,6 @@ function addEvent(__address, __timestamp, __user, __type, __metadata) {
 }
 
 function deployNewContract(mongoID) {
-
 	const statusCode = new Promise((resolve, reject) => {
 		var accounts = web3.eth.getAccounts()
 			.then((accountlist) => {
@@ -80,5 +79,76 @@ function deployNewContract(mongoID) {
 	return statusCode;
 }
 
-//deployNewContract("12345465");
-addEvent("0x8CdaF0CD259887258Bc13a92C0a6dA92698644C0", 12, "Sergi", 1, "METADATA")
+function getLogList(__address) {
+	const statusCode = new Promise((resolve, reject) => {
+		var accounts = web3.eth.getAccounts()
+			.then((accountlist) => {
+				var DataObject = new web3.eth.Contract(ABI.DataObject, __address, { from: accountlist[0] });
+				DataObject.methods.getLogList().call()
+					.then((response) => {
+						console.log('EVENT OK in getLogList')
+						console.log(response)
+						resolve(response)
+					})
+					.catch((error) => {
+						console.log('Error in Event')
+						console.log(error)
+						resolve(error)
+					})
+			})
+			.catch((error) => {
+				console.log(error)
+				resolve(error)
+			})
+	})
+	return statusCode;
+}
+
+function getLogData(logAddress) {
+	const statusCode = new Promise((resolve, reject) => {
+		var accounts = web3.eth.getAccounts()
+		.then((accountlist) => {
+			var logContract = new web3.eth.Contract(ABI.Log, logAddress, {from: accountlist[0]});
+			logContract.methods.getUser.call()
+			.then((user) => {
+				console.log(user)
+			})
+		})
+		.catch((error) => {
+			console.log("Coinbase undefined")
+			resolve(error)
+		})
+	})
+	return statusCode;
+}
+
+address = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A"
+
+
+deployNewContract("98765")
+	.then((newaddress) => {
+		addEvent(newaddress, 12, "Sergi", 1, "METADATA")
+			.then((logaddress) => {
+				addEvent(newaddress,13,"miquel",4,"DESC")
+					.then((aux) => {
+						getLogList(newaddress)
+							.then((response) => {
+								console.log(response)
+							})
+							.catch((error) => {
+								console.log(error)
+							})
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	})
+	.catch((error) => {
+		console.log(error)
+	})
+
+//getLogInfo(address)

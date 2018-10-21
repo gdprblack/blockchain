@@ -9,11 +9,14 @@ contract DataObject {
         id = mongoID;
     }
     
-    function addEvent(uint timestamp, string user, uint tpe, string meta) {
-        address log = new Log(tpe, timestamp, user, meta);
-        logList.push(log);
+    function addEvent(address __address) public returns (address newlog) {
+        logList.push(__address);
+        return __address;
+    }
+    
+    function getLogList() public returns (address[] list) {
+        return logList;
     }
 }
-
 
 

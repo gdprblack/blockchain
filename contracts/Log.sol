@@ -10,7 +10,24 @@ contract Log {
     
     function Log(uint __type, uint __timestamp, string __user, string __metadata) {
         _type = logType(__type);
+        timestamp = __timestamp;
         user = __user;
         metadata = __metadata;
+    }
+    
+    function getType() returns (logType){
+        return _type;
+    }
+    
+    function getUser() returns (string){
+        return user;
+    }
+    
+    function getTimestamp() returns (uint){
+        return timestamp;
+    }
+    
+    function getMetadata() returns (string){
+        return metadata;
     }
 }
