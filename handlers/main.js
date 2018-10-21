@@ -6,42 +6,36 @@ class BlockchainEvents {
 	constructor() {
 		var Web3 = require('web3');
 		this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545'));
+		this.coinbase = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57";
 	}
 
 	addEvent(__address, __timestamp, __user, __type, __metadata) {
 		const statusCode = new Promise((resolve, reject) => {
-			var accounts = this.web3.eth.getAccounts()
-				.then((accountlist) => {
-					var Log = new this.web3.eth.Contract(ABI.Log)
-					var entPromise = Log.deploy({
-						data: '0x' + EVM.Log["object"],
-						arguments: [__type, __timestamp, __user, __metadata]
-					}).send({
-						from: accountlist[0],
-						gas: 12000000,
-					})
-						.then((receipt) => {
-							console.log('New Log Address', receipt['_address'])
-							var DataObject = new this.web3.eth.Contract(ABI.DataObject, __address, { from: accountlist[0] });
-							DataObject.methods.addEvent(receipt['_address']).send()
-								.then((response) => {
-									console.log('EVENT OK')
-									resolve(receipt['_address'])
-								})
-								.catch((error) => {
-									console.log('Error in Event')
-									console.log(error)
-									resolve('Error')
-								})
-
+			var Log = new this.web3.eth.Contract(ABI.Log)
+			var entPromise = Log.deploy({
+				data: '0x' + EVM.Log["object"],
+				arguments: [__type, __timestamp, __user, __metadata]
+			}).send({
+				from: this.coinbase,
+				gas: 12000000,
+			})
+				.then((receipt) => {
+					console.log('New Log Address', receipt['_address'])
+					var DataObject = new this.web3.eth.Contract(ABI.DataObject, __address, { from: this.coinbase });
+					DataObject.methods.addEvent(receipt['_address']).send()
+						.then((response) => {
+							console.log('EVENT OK')
+							resolve(receipt['_address'])
 						})
 						.catch((error) => {
+							console.log('Error in Event')
 							console.log(error)
-							resolve(error)
+							resolve('Error')
 						})
+
 				})
 				.catch((error) => {
-					console.log("Coinbase undefined")
+					console.log(error)
 					resolve(error)
 				})
 
@@ -51,27 +45,20 @@ class BlockchainEvents {
 
 	deployNewContract(mongoID) {
 		const statusCode = new Promise((resolve, reject) => {
-			var accounts = this.web3.eth.getAccounts()
-				.then((accountlist) => {
-					var DataObject = new this.web3.eth.Contract(ABI.DataObject);
-					var entPromise = DataObject.deploy({
-						data: '0x' + EVM.DataObject["object"],
-						arguments: [mongoID]
-					}).send({
-						from: accountlist[0],
-						gas: 12000000,
-					})
-						.then((receipt) => {
-							console.log('New DataObject Address', receipt['_address'])
-							resolve(receipt['_address'])
-						})
-						.catch((error) => {
-							console.log('Error deploying new DataObject', error)
-							resolve(error)
-						})
+			var DataObject = new this.web3.eth.Contract(ABI.DataObject);
+			var entPromise = DataObject.deploy({
+				data: '0x' + EVM.DataObject["object"],
+				arguments: [mongoID]
+			}).send({
+				from: this.coinbase,
+				gas: 12000000,
+			})
+				.then((receipt) => {
+					console.log('New DataObject Address', receipt['_address'])
+					resolve(receipt['_address'])
 				})
 				.catch((error) => {
-					console.log("Coinbase undefined")
+					console.log('Error deploying new DataObject', error)
 					resolve(error)
 				})
 
@@ -81,22 +68,15 @@ class BlockchainEvents {
 
 	getLogList(__address) {
 		const statusCode = new Promise((resolve, reject) => {
-			var accounts = this.web3.eth.getAccounts()
-				.then((accountlist) => {
-					var DataObject = new this.web3.eth.Contract(ABI.DataObject, __address, { from: accountlist[0] });
-					DataObject.methods.getLogList().call()
-						.then((response) => {
-							console.log('EVENT OK in getLogList')
-							console.log(response)
-							resolve(response)
-						})
-						.catch((error) => {
-							console.log('Error in Event')
-							console.log(error)
-							resolve(error)
-						})
+			var DataObject = new this.web3.eth.Contract(ABI.DataObject, __address, { from: this.coinbase });
+			DataObject.methods.getLogList().call()
+				.then((response) => {
+					console.log('EVENT OK in getLogList')
+					console.log(response)
+					resolve(response)
 				})
 				.catch((error) => {
+					console.log('Error in Event')
 					console.log(error)
 					resolve(error)
 				})
@@ -106,17 +86,10 @@ class BlockchainEvents {
 
 	getLogData(logAddress) {
 		const statusCode = new Promise((resolve, reject) => {
-			var accounts = this.web3.eth.getAccounts()
-				.then((accountlist) => {
-					var logContract = new this.web3.eth.Contract(ABI.Log, logAddress, { from: accountlist[0] });
-					logContract.methods.getUser.call()
-						.then((user) => {
-							console.log(user)
-						})
-				})
-				.catch((error) => {
-					console.log("Coinbase undefined")
-					resolve(error)
+			var logContract = new this.web3.eth.Contract(ABI.Log, logAddress, { from: this.coinbase });
+			logContract.methods.getUser.call()
+				.then((user) => {
+					console.log(user)
 				})
 		})
 		return statusCode;

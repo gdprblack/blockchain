@@ -29,7 +29,7 @@ bcRouter.post('/addEvent', function(req, res) {
 })
 
 bcRouter.post('/getLogList', function(req, res) {
-    blockchainEvents.addEvent(req.body.address).then((response) => {
+    blockchainEvents.getLogList(req.body.address).then((response) => {
         res.send(response)
     }) 
 })
