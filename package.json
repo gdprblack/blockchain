@@ -2,7 +2,7 @@
   "name": "@gdprblack/blockchain",
   "version": "1.0.2",
   "description": "",
-  "main": "./handlers/main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/gdprblack/blockchain#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "web3": "^1.0.0-beta.36"
   }
 }
